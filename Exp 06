@@ -1,0 +1,33 @@
+import nltk
+from nltk import bigrams
+from nltk.corpus import reuters
+import random
+nltk.download('reuters')
+nltk.download('punkt')
+sample_text = reuters.raw(reuters.fileids()[0])
+tokens = nltk.word_tokenize(sample_text.lower())
+bigram_list = list(bigrams(tokens))
+bigram_freq = {}
+for bigram in bigram_list:
+    if bigram[0] not in bigram_freq:
+        bigram_freq[bigram[0]] = []
+    bigram_freq[bigram[0]].append(bigram[1])
+
+def generate_text(start_word, length=50):
+    current_word = start_word.lower()
+    output = [current_word]
+    
+    for _ in range(length - 1):
+        if current_word in bigram_freq:
+            next_word = random.choice(bigram_freq[current_word])
+            output.append(next_word)
+            current_word = next_word
+        else:
+            break
+
+    return ' '.join(output)
+start_word = 'the'
+generated_text = generate_text(start_word)
+
+print("Generated Text:")
+print(generated_text)
