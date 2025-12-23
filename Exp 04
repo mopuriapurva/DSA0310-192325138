@@ -1,0 +1,14 @@
+import re
+
+def pluralize(word):
+    if re.search(r'[a-zA-Z]*[^aeiou]y$', word):
+        return word[:-1] + "ies"
+    elif re.search(r'(s|x|z|ch|sh)$', word):
+        return word + "es"
+    else:
+        return word + "s"
+
+test_words = ["cat", "box", "city", "child", "church", "baby", "lady", "fox"]
+
+for word in test_words:
+    print(f"Singular: {word} → Plural: {pluralize(word)}")
